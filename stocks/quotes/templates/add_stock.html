@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add Stock</h2>
+<br>
+
+<form action="{% url 'add_stock' %}" class="form-inline my-2 my-lg-0" method="POST">
+    {% csrf_token %}
+    <input class="form-control mr-sm-2" type="search" placeholder="관심 주식 추가하기" aria-label="Search" name="ticker">
+    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Add Stock</button>
+  </form>
+  <br>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+          <th scope="col">CompanyName(symbol)</th>
+          <th scope="col">latestPrice</th>
+          <th scope="col">previousClose</th>
+          <th scope="col">marketCap</th>
+          <th scope="col">ytdChange</th>
+          <th scope="col">week52High</th>
+          <th scope="col">week52Low</th>
+        </tr>
+      </thead>
+    <tbody>
+        
+        {% for item in output %}
+        <tr>
+            <th scope="row">{{ item.companyName }}({{ item.symbol }})</th>
+            <td>${{ item.latestPrice }}</td>
+            <td>{{ item.previousClose }}</td>
+            <td>{{ item.marketCap }}</td>
+            <td>{{ item.ytdChange }}</td>
+            <td>{{ item.week52High }}</td>
+            <td>{{ item.week52Low }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <hr>
+
+  <h2>Delete Stock</h2>
+  <br>
+    {% for value in ticker %}
+        <a href="{% url 'delete' value.id %}"><button type="button" class="btn btn-secondary">{{ value.ticker }}</button></a>
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    {% endfor %}
+
+{% endblock %}

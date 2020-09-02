@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    
+    {% if api %}
+    <form action="{% url 'home' %}" class="form-inline my-2 my-lg-0" method="POST">
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" type="search" placeholder="stock symbol 입력" aria-label="Search" name="ticker">
+        <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">검색</button>
+      </form>
+      <br>
+    <br>
+    <h1>{{ api.companyName }}</h1>
+    
+    
+    
+    <hr>
+
+        {% if api == 'Error...' %}
+            There was a problem with your ticker symbol, please try again
+        {% else %}
+            
+            <h5>symbol : {{ api.symbol }}<br><br>
+            open : {{ api.open }}<br>
+            close : {{ api.close }}<br><br></h5>
+            <h5 style="color:red"> latestPrice : ${{ api.latestPrice }}</h5><br>
+            <h5>previousClose : {{ api.previousClose }}<br><br>
+            marketCap : {{ api.marketCap }}<br>
+            ytdChange : {{ api.ytdChange }}<br><br>
+            week52High : {{ api.week52High }}<br>
+            week52Low : {{ api.week52Low }}<br></h5>
+            
+        {% endif %}
+        
+    {% endif %}
+
+{% endblock %}
